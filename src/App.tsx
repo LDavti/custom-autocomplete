@@ -1,5 +1,4 @@
-import { Demo }                from "./demo";
-
+import { Demo }   from "./demo";
 
 function App() {
   return (

@@ -9,49 +9,7 @@
     margin-top: 0.5rem;
 }
 
-.formGroup {
-    display: flex;
-    flex-direction: column;
-}
-
-.label {
-  text-align: start;
-}
-
-.formGroup input {
-    display: block;
-    padding: 1rem;
-    border: 1px solid #ccc;
-}
-
-
-.options li {
-padding: 8px;
-    font-size: 16px;
-    line-height: 24px;
-
-}
-.options li:hover{
-   background:aliceblue;
-}
-/*.options li button {*/
-/*    display: block;*/
-/*    width: 100%;*/
-/*    background-color: white;*/
-/*    border-radius: 0;*/
-/*    padding: 0.5rem;*/
-/*    font-size: 0.875rem;*/
-/*    text-align: left;*/
-/*    outline: none;*/
-/*    cursor: pointer;*/
-/*}*/
-
-/*.options li:hover button,*/
-/*.options li.highlighted button {*/
-/*    background-color: #ccc;*/
-/*}*/
-
-.autocompleteMain {
+.autocompleteInput {
     width: 400px;
     border: 1px solid #6495ed;
     padding: 16px;
@@ -60,28 +18,48 @@ padding: 8px;
     border-radius: 4px;
     box-sizing: border-box;
 }
-.autocompleteMain:focus {
+.autocompleteInput:focus {
     border: 2px solid #6495ed;
 }
-    .iconClose{
-        padding-left: 16px;
-        background: url("https://static.thenounproject.com/png/1180177-200.png") no-repeat right;
-        background-size: 20px;
-    }
-    .iconOpen {
-        padding-left: 16px;
-        background: url("https://static.thenounproject.com/png/331737-200.png") no-repeat right;
-        background-size: 20px;
-    }
+
+.label {
+    text-align: start;
+}
+
 .options {
-  margin: 0;
+    margin: 0;
     list-style: none;
     padding: 8px;
     box-sizing: border-box;
-    box-shadow:  rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
     position: absolute;
     text-align: start;
     max-height: 500px;
     overflow-y: auto;
-width: 100%;}
+    width: 100%
+}
+
+.options li {
+    padding: 8px;
+    font-size: 16px;
+    line-height: 24px;
+
+}
+
+.options li:hover{
+    background:aliceblue;
+}
+
+.iconClose{
+    padding-left: 16px;
+        background: url("https://static.thenounproject.com/png/1180177-200.png") no-repeat right;
+        background-size: 20px;
+}
+
+.iconOpen {
+    padding-left: 16px;
+    background: url("https://static.thenounproject.com/png/331737-200.png") no-repeat right;
+    background-size: 20px;
+}
+
 

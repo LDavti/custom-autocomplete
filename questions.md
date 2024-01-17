@@ -1,26 +1,39 @@
 # Questions and Answers
 
-- **Difference between Component and Pure Component**: The main difference is that PureComponent will skip re-render if props are the same. Probably its the same effect as using React.memo on Functional Components. To be honest I havent used them(Class Components) lately at all. There could be other differences
+- **What is the difference between Component and PureComponent? Give an example where it might break my app.**: The main difference is that PureComponent has a built-in `shouldComponentUpdate` method, which will be automatically prevent from re-render if there is no props/state change. For Component we should do that manually by implementing that method. However, `shouldComponentUpdate` using shallow comparison mechanism, which means it won't be effective when dealing with complex objects and won't detect any change. In this situation, to avoid mistakes it would be better to implement own deep comparison mechanism.
 
-- **Context + ShouldComponentUpdate might be dangerous. Can think of why is that**: Unfortunately I do not know, like I said I havent been using Class Components for past 3 years I think. I could search this on google but that defeats the purpose
+- **Context + ShouldComponentUpdate might be dangerous. Can think of why is that**: Imagine we have a context, and some of our components rely on that context. If one of the parent components using `shouldComponentUpdate` method, the other components may not see the upcoming changes, because of the blocker method. I don't have much experience with class components + context API, but I know that there won't be a problem with new hooks. 
 
-- **Describe 3 ways to pass information from a component to its PARENT**: First and most basic use case is to use props to pass the data from parent to the child. If we want to avoid prop drilling we can use React Context, which is second way of passing the data. Third way that I could think of is top level state of the APP, and for that we can use various things like Redux, Zustand, Joitai, React Query etc
+- **Describe 3 ways to pass information from a component to its PARENT**: 1) Keep and pass information using ContextAPI 2) Use state manager (Redux, Mobx, Zustand, Recoil...) 3) Let child component hold a prop with callback and then invoke some method in parent component, which will fire the callback and get the information.
 
-- **Give 2 ways to prevent components from re-rendering.**: Components can be prevented from rerendering by wrapping them inside React.memo or by using React.useMemo and React.useCallback on the parent side to memoize props which are passed to the children
+- **Give 2 ways to prevent components from re-rendering.**: 1) Using react memo, which will skip re-rendering if props are unchanged. Unlike `PureComponent` with its `shouldComponentUpdate`, we can pass a second argument to memo, which is a comparison function, where we can describe our comparison mechanism, and don't worry about nested objects 2) Avoid reference recreations by using useMemo/useCallback. useMemo will cache the function return, while useCallback will cache the function itself.   
 
-- **What is a fragment and why do we need it? Give an example where it might break my app**: React.Fragment is used when we want to avoid div soup for example, that way we do not have to wrap 2 or more direct children inside a common parent. By wrapping them inside React.Fragment we effectively achived the same result. In general we can avoid necessary DOM elements. I am not aware of how it can break the APP though
-
-
-- **Give 3 examples of the HOC pattern.**: Not much I can say about this. The examples I could think of are, UI transformation and passing props/state which is common.
-
-- **what's the difference in handling exceptions in promises, callbacks and async...await.**: To handle exceptions inside promises we have to use either .catch method or to specify second parameter on the then() method. Inside callbacks we have to provide a function which will be invoked in case of error. Async await is neat because we can wrap it inside try/catch clause, its most intuitive.
-
-- **How many arguments does setState take and why is it async.**: setState accepts one argument, which is either the next state or a function that will be used in order to compute the next state. setState is async because updating the state can not block other events which are already queued up from occuring. Also because its async different techniques can be used to optimize it, like state batching etc
-
-- **List the steps needed to migrate a Class to Function Component.**: On top of my head... Replace class with function of course. Any constructor state initialization must be replaced with useState hooks, render method should be transformed into return statement. This binding can not be used at all.
+- **What is a fragment and why do we need it? Give an example where it might break my app**: We can't define more than one parent elements in our component, so if we want to group them together we can use fragments `<><Group1/><Group2/></>`. React Fragment has no affect to DOM. Fragment can break an app when we dealing with them dynamically and applying some DOM manipulations like "removeChild", or maybe it can break some styles when applying styles dynamically.
 
 
-- **List a few ways styles can be used with components.**: First and worst would be to use inline styles. Then we could use CSS modules like I used for this task. Also there are various JSS solutions like Styled components, Emotion. My personal favourite is Tailwind/Twind.
+- **Give 3 examples of the HOC pattern.**: 
+1) React.memo 
+2) React.Suspense(withSuspense), React.lazy, 
+3) React.forwardRef
 
-- **How to render an HTML string coming from the server.**: This is a bad practice but if it needs to be done, dangerouslySetInnerHTML can be used.
+- **what's the difference in handling exceptions in promises, callbacks and async...await.**: For callback there is no automated mechanism for handling and propagating errors, we need to do it manually, while in async...await and in promises there will be automatically delivered in the nearest 'catch' block, so it's better to use async...await.
+
+- **How many arguments does setState take and why is it async.**: setState has 2 arguments - the next state and the optional callback function, setState is async to provide code update right after the component re-renders, it can't be sync because rice condition can happen and some components could not be able to update state while the others are in progress.
+
+- **List the steps needed to migrate a Class to Function Component.**: 
+1) Create a migration plan and setup version control, estimate project (critical parts which may be broken after dependency updates)
+2) Understand principles of new React with functional components, (hooks, syntax, working mechanism, etc), 
+3) Update dependencies, if something is broken or deprecated, fix that first
+4) Start updating (change syntax, methods, states to new version) from non-complicated, small components, by pushing it from small branches and test everything,
+5) Change documentation if needed
+6) Analyze and test everything, to be sure it is working fine
+
+- **List a few ways styles can be used with components.**: 
+1) inline-CSS
+2) Global CSS (one file) or CSS modules (separated CSS files)
+3) CSS-in-JS with libraries
+4) Styled Components
+5) Sass, less
+
+- **How to render an HTML string coming from the server.**: dangerouslySetInnerHTML, but there may be third-party safer alternatives
 

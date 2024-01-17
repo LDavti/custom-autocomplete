@@ -1,6 +1,6 @@
-import { Autocomplete }        from "./components";
+import { Autocomplete } from "./components";
 import { useEffect, useState } from "react";
-import { Option }              from "./components/autocomplete/autocomplete.type";
+import { Option } from "./components/autocomplete/autocomplete.type";
 
 const publicAPIurl = 'https://www.amiiboapi.com/api/amiibo'
 
@@ -11,7 +11,10 @@ export const Demo = () => {
   const fetchData = async () => {
     try {
       setIsLoading(true)
-      const resp = await fetch(`${publicAPIurl}${val ? `?name=${encodeURIComponent(val)}` : ''}`, {method: 'GET', redirect: 'follow'});
+      const resp = await fetch(`${publicAPIurl}${val ? `?name=${encodeURIComponent(val)}` : ''}`, {
+        method  : 'GET',
+        redirect: 'follow'
+      });
       if (resp.ok) {
         const res = await resp.json();
         setData(res.amiibo.map((val: { name: string; head: string; tail: string }) => ({
@@ -22,8 +25,7 @@ export const Demo = () => {
     } catch (e) {
       console.error(e);
       setIsLoading(false)
-    }
-    finally {
+    } finally {
       setIsLoading(false)
     }
   }
@@ -37,8 +39,8 @@ export const Demo = () => {
       <p>Hint: Try to search for <i>Daisy</i> or <i>Mario</i></p>
       <Autocomplete
         isLoading={isLoading}
-        label = {'Nintendo Amiibo'}
-        placeholder = {'Select your Amiibo'}
+        label={'Nintendo Amiibo'}
+        placeholder={'Select your Amiibo'}
         options={data}
         onChange={value => {
           setVal(value.label)

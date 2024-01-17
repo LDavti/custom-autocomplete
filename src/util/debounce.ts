@@ -1,13 +1,5 @@
-export function debounce<Args extends unknown[]>(
-  fn: (...args: Args) => void,
-  delay: number
-) {
-  let timeoutID: number | undefined;
-
-  const debounced = (...args: Args) => {
-    clearTimeout(timeoutID);
-    timeoutID = window.setTimeout(() => fn(...args), delay);
-  };
-
-  return debounced;
-}
+const ref = {current: 0};
+export const debounce = (fn: TimerHandler, timeout: number) => {
+  clearTimeout(ref.current);
+  ref.current = setTimeout(fn, timeout);
+};
